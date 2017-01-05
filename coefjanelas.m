@@ -2,23 +2,28 @@ function [coef_janela] = coefjanelas(janela,M,deltap,deltas)
 %
 % [coef_janela] = coefjanelas(janela,M,delta_s, delta_p)
 %
+% This function calculates the coeficients of the window from deltap,
+% deltas and the order. We can choose within 4 windows
 % Esta funcao calcula o os coeficientes da janela a partir de deltap,
 % deltas e da ordem, sendo possivel ser feito para 4 janelas diferentes.
 %
+% Inputs are:
 % Os parametros de entrada sao:
 %
-% > janela = tipo de janela, podendo ser:
+% > janela = Window / tipo de janela, podendo ser:
 %     janela==0 --> Janela de Retangular;
 %     janela==1 --> Janela de Hamming;
 %     janela==2 --> Janela de Blackman;
 %     janela==3 --> Janela de Kaiser;
-% > M = ordem;
-% > deltap = ripple na banda de passagem, em dB;
-% > deltas = ripple na banda de corte, em dB;
+% > M = order / ordem;
+% > deltap = passband ripple / ripple na banda de passagem, em dB;
+% > deltas = rejection band ripple / ripple na banda de corte, em dB;
 
+% Calculus of L. following Manolakis Table 10.3, Cap 10.3:
 % Calculo do L, de acordo com a Tabela 10.3, Cap 10.3 Manolakis:
 L = M+1;
 
+% Determine which window is used and with it determine the coeficients
 % A condicional 'if' determina para qual janela serao calculados os
 % coeficientes 'coef_janela'. A janela eh determinada pela variavel
 % 'janela'.
@@ -38,6 +43,7 @@ elseif janela == 2 %Blackman
 elseif janela == 3 %Kaiser
     % Funcao de janela Kaiser:
     
+    % Calculates the greatest ripple amplitude
     % Calculo da maior amplitude de ripple, Manolakis Cap 10.3.
     A=-20*log10(max(deltap,deltas));
     
